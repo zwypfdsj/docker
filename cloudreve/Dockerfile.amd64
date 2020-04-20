@@ -1,0 +1,39 @@
+FROM golang:alpine as builder
+
+WORKDIR /
+
+RUN apk add git yarn gcc musl-dev && \
+    git clone --recurse-submodules https://github.com/cloudreve/Cloudreve
+
+RUN cd /Cloudreve && \
+    cd assets && \
+    yarn install && \
+    yarn run build
+
+RUN cd /Cloudreve && \
+    go get github.com/rakyll/statik && \
+    statik -src=assets/build/  -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f
+
+RUN cd /Cloudreve && \
+    export COMMIT_SHA=$(git rev-parse --short HEAD) && \
+    export VERSION=$(git describe --tags) && \
+    go build -a -o cloudreve -ldflags "-w -s -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'"
+
+FROM alpine:latest
+
+ENV TZ=Asia/Shanghai
+
+COPY --from=builder /Cloudreve/cloudreve /cloudreve/cloudreve
+
+RUN apk add --no-cache tzdata ca-certificates && \
+    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    apk del tzdata && \
+    rm -rf /var/cache/apk/* && \
+    chmod -R 777 /cloudreve
+
+VOLUME /cloudreve
+WORKDIR /cloudreve
+
+EXPOSE 5212
+
+CMD ["/cloudreve/cloudreve"]

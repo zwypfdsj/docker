@@ -1,0 +1,76 @@
+FROM ubuntu:18.04
+
+ENV PREFIX /opt/aria2/build_libs
+ENV PKG_CONFIG_PATH /opt/aria2/build_libs/lib/pkgconfig/
+ENV LD_LIBRARY_PATH /opt/aria2/build_libs/lib/
+ENV CC gcc
+ENV CXX g++
+
+RUN apt update && \
+    apt install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev
+
+RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
+    curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.gz && \
+    curl -L -O https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz && \
+    curl -L -O https://www.openssl.org/source/openssl-1.1.1f.tar.gz && \
+    curl -L -O https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz && \
+    curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
+
+RUN tar -zxf zlib-1.2.11.tar.gz && \
+    cd zlib-1.2.11 && \
+    ./configure --prefix=$PREFIX --static && \
+    make install
+
+RUN tar -zxf expat-2.2.9.tar.gz && \
+    cd expat-2.2.9 && \
+    ./configure --prefix=$PREFIX --enable-static --enable-shared && \
+    make install
+
+RUN tar -zxf c-ares-1.16.0.tar.gz && \
+    cd c-ares-1.16.0 && \
+    ./configure --prefix=$PREFIX --enable-static --disable-shared && \
+    make install
+
+RUN tar -zxf openssl-1.1.1f.tar.gz && \
+    cd openssl-1.1.1f && \
+    ./Configure linux-x86_64 --prefix=$PREFIX shared && \
+    make install
+
+RUN tar -zxf sqlite-autoconf-3310100.tar.gz && \
+    cd sqlite-autoconf-3310100 && \
+    ./configure --prefix=$PREFIX --enable-static --enable-shared && \
+    make install
+
+RUN tar -zxf libssh2-1.9.0.tar.gz && \
+    rm -rf $PREFIX/lib/pkgconfig/libssh2.pc && \
+    cd libssh2-1.9.0 && \
+    ./configure --prefix=$PREFIX --enable-static --disable-shared && \
+    make install
+
+RUN git clone https://github.com/aria2/aria2 && \
+    cd aria2 && \
+    sed -i "s|\"5\", 1, -1, 'j'|\"16\", 1, -1, 'j'|g" ./src/OptionHandlerFactory.cc && \
+    sed -i "s|\"1\", 1, 16, 'x'|\"16\", 1, -1, 'x'|g" ./src/OptionHandlerFactory.cc && \
+    sed -i 's|MIN_SPLIT_SIZE, "20M", 1_m, 1_g|MIN_SPLIT_SIZE, "1M", 1_k, 1_g|g' ./src/OptionHandlerFactory.cc && \
+    sed -i 's|CONNECT_TIMEOUT, "60", 1, 600|CONNECT_TIMEOUT, "30", 1, 600|g' ./src/OptionHandlerFactory.cc && \
+    sed -i 's|PIECE_LENGTH, "1M", 1_m, 1_g|PIECE_LENGTH, "1M", 1_k, 1_g|g' ./src/OptionHandlerFactory.cc && \
+    sed -i 's|RETRY_WAIT, "0", 0, 600|RETRY_WAIT, "1", 0, 600|g' ./src/OptionHandlerFactory.cc && \
+    sed -i 's|SPLIT, "5", 1, -1|SPLIT, "128", 1, -1|g' ./src/OptionHandlerFactory.cc && \
+    autoreconf -i && \
+    ./configure \
+        --prefix=/usr \
+        --without-libxml2 \
+        --without-libgcrypt \
+        --with-openssl \
+        --without-libnettle \
+        --without-gnutls \
+        --without-libgmp \
+        --with-libssh2 \
+        --with-sqlite3 \
+        --with-libexpat \
+        --with-libz \
+        --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
+        ARIA2_STATIC=yes \
+        --enable-shared=no && \
+    make && \
+    strip src/aria2c

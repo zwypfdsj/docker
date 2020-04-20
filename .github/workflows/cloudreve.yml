@@ -1,0 +1,52 @@
+name: Cloudreve
+
+on:
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Docker Hub login
+      env: 
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: crazy-max/ghaction-docker-buildx@v1
+      with:
+        version: latest
+
+    - name: Build And Push Docker image to Docker Hub
+      run: |
+        cd cloudreve
+        docker buildx build --push --platform linux/amd64 -t zwypfdsj/docker:cloudreve -f Dockerfile.amd64 .
+        docker buildx build --push --platform linux/arm64 -t zwypfdsj/docker:cloudreve-arm64 -f Dockerfile.arm64 .
+
+    - name: Build
+      run: |
+        cd cloudreve
+        docker build -t cloudreve - < Dockerfile
+        id=$(docker create cloudreve)
+        docker cp $id:/Cloudreve/cloudreve-amd64 ./cloudreve-amd64
+        docker cp $id:/Cloudreve/cloudreve-arm64 ./cloudreve-arm64
+        docker rm -v $id
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: cloudreve-amd64
+        path: cloudreve/cloudreve-amd64
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: cloudreve-arm64
+        path: cloudreve/cloudreve-arm64

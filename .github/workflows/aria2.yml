@@ -1,0 +1,55 @@
+name: Aria2
+
+on:
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Aria2-amd64
+      run: |
+        cd aria2
+        docker build -t aria2-amd64 - < Dockerfile.amd64
+        id=$(docker create aria2-amd64)
+        docker cp $id:/aria2/src/aria2c ./aria2c-amd64
+        docker rm -v $id
+
+    - name: Aria2-arm64
+      run: |
+        cd aria2
+        docker build -t aria2-arm64 - < Dockerfile.arm64
+        id=$(docker create aria2-arm64)
+        docker cp $id:/aria2/src/aria2c ./aria2c-arm64
+        docker rm -v $id
+
+    - name: Aria2-mingw
+      run: |
+        cd aria2
+        docker build -t aria2-mingw - < Dockerfile.mingw
+        id=$(docker create aria2-mingw)
+        docker cp $id:/aria2/src/aria2c.exe ./aria2c.exe
+        docker rm -v $id
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: aria2c-amd64
+        path: aria2/aria2c-amd64
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: aria2c-arm64
+        path: aria2/aria2c-arm64
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: aria2c.exe
+        path: aria2/aria2c.exe
