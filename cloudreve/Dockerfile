@@ -20,5 +20,5 @@ RUN cd /Cloudreve && \
 RUN cd /Cloudreve && \
     export COMMIT_SHA=$(git rev-parse --short HEAD) && \
     export VERSION=$(git describe --tags) && \
-    CC=gcc GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -a -ldflags "-w -s --extldflags '-static' -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'" -o cloudreve-amd64
+    CC=gcc GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -a -ldflags "-w -s --extldflags '-static' -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'" -o cloudreve-amd64 && \
     CC=aarch64-linux-gnu-gcc GOOS=linux GOARCH=arm64 CGO_ENABLED=1 go build -a -ldflags "-w -s --extldflags '-static' -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'" -o cloudreve-arm64
