@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 
 RUN apk add git gcc libc-dev && \
     go get -u -d github.com/indes/flowerss-bot/... && \
-    go build -a -ldflags "-w -s" -o /go/flowerss-bot github.com/indes/flowerss-bot
+    go build -a -ldflags "-s -w" -o /go/flowerss-bot github.com/indes/flowerss-bot
 
 FROM alpine:latest
 

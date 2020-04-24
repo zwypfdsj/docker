@@ -17,7 +17,7 @@ RUN cd /Cloudreve && \
 RUN cd /Cloudreve && \
     export COMMIT_SHA=$(git rev-parse --short HEAD) && \
     export VERSION=$(git describe --tags) && \
-    go build -a -o cloudreve -ldflags "-w -s -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'"
+    go build -a -o cloudreve -ldflags "-s -w -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'"
 
 FROM alpine:latest
 

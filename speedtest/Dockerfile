@@ -7,7 +7,7 @@ WORKDIR /
 RUN apk add git && \
     git clone -b go https://github.com/librespeed/speedtest && \
     cd speedtest && \
-    go build -a -ldflags "-w -s" -o speedtest
+    go build -a -ldflags "-s -w" -o speedtest
 
 FROM alpine:latest
 

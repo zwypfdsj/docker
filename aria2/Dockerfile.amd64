@@ -12,7 +12,7 @@ RUN apt update && \
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.gz && \
     curl -L -O https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz && \
-    curl -L -O https://www.openssl.org/source/openssl-1.1.1f.tar.gz && \
+    curl -L -O https://www.openssl.org/source/openssl-1.1.1g.tar.gz && \
     curl -L -O https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz && \
     curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
 
