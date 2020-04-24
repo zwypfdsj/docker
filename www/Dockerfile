@@ -58,8 +58,9 @@ RUN addgroup -g 82 -S www && \
     php7-xmlwriter \
     php7-xsl \
     php7-zip \
-    php7-zlib && \
-    curl -sS https://getcomposer.org/installer | \
+    php7-zlib
+
+RUN curl -sS https://getcomposer.org/installer | \
     php7 -- --install-dir=/usr/bin --filename=composer && \
     sed -i "s|;daemonize = yes|daemonize = no|g" /etc/php7/php-fpm.conf && \
     sed -i "s|user = nobody|user = www|g" /etc/php7/php-fpm.conf && \
@@ -68,8 +69,10 @@ RUN addgroup -g 82 -S www && \
     sed -i "s|group = nobody|group = www|g" /etc/php7/php-fpm.d/www.conf && \
     sed -i "s|pm.max_children =.*|pm.max_children = ${PM_MAX_CHILDREN}|g" /etc/php7/php-fpm.d/www.conf && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TZ}|g" /etc/php7/php.ini && \
-    sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini
+
+RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo "${TZ}" >  /etc/timezone && \
     apk del tzdata curl && \
     rm -rf /var/cache/apk/*
 
