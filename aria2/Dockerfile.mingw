@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX /usr/local/$HOST

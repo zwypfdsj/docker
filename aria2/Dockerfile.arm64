@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV PREFIX /opt/aria2/build_libs
 ENV PKG_CONFIG_PATH /opt/aria2/build_libs/lib/pkgconfig/
