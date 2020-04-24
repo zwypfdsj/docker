@@ -1,7 +1,5 @@
 FROM golang:latest
 
-WORKDIR /
-
 RUN apt update && apt install -y git curl && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
@@ -13,9 +11,8 @@ RUN cd /opt && \
     tar -zxf x86_64-linux-musl-native.tgz && \
     tar -zxf aarch64-linux-musl-cross.tgz
 
-RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve && \
-    cd /Cloudreve && \
-    cd assets && \
+RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve /Cloudreve && \
+    cd /Cloudreve/assets && \
     yarn install && \
     yarn run build
 

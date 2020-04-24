@@ -15,7 +15,7 @@ ENV TZ=Asia/Shanghai
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" >  /etc/timezone && \
+    echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 

@@ -1,12 +1,9 @@
 FROM golang:alpine AS builder
 
-WORKDIR /
+RUN apk add git yarn gcc libc-dev binutils
 
-RUN apk add git yarn gcc musl-dev && \
-    git clone --recurse-submodules https://github.com/cloudreve/Cloudreve
-
-RUN cd /Cloudreve && \
-    cd assets && \
+RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve /Cloudreve && \
+    cd /Cloudreve/assets && \
     yarn install && \
     yarn run build
 
@@ -27,7 +24,7 @@ COPY --from=builder /Cloudreve/cloudreve /cloudreve/cloudreve
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" >  /etc/timezone && \
+    echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/* && \
     chmod -R 777 /cloudreve

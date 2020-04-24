@@ -72,7 +72,7 @@ RUN curl -sS https://getcomposer.org/installer | \
     sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini
 
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" >  /etc/timezone && \
+    echo "${TZ}" > /etc/timezone && \
     apk del tzdata curl && \
     rm -rf /var/cache/apk/*
 

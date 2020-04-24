@@ -2,8 +2,6 @@ FROM golang:alpine AS builder
 
 ENV CGO_ENABLED=0
 
-WORKDIR /
-
 RUN apk add git && \
     git clone -b go https://github.com/librespeed/speedtest && \
     cd speedtest && \
@@ -15,7 +13,7 @@ ENV TZ=Asia/Shanghai
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" >  /etc/timezone && \
+    echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
