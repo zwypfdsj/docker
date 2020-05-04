@@ -11,7 +11,7 @@ RUN cd /opt && \
     tar -zxf x86_64-linux-musl-native.tgz && \
     tar -zxf aarch64-linux-musl-cross.tgz
 
-RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve /Cloudreve && \
+RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /Cloudreve && \
     cd /Cloudreve/assets && \
     yarn install && \
     yarn run build

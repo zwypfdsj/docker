@@ -2,7 +2,7 @@ FROM golang:alpine AS builder
 
 RUN apk add git yarn gcc libc-dev binutils
 
-RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve /Cloudreve && \
+RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /Cloudreve && \
     cd /Cloudreve/assets && \
     yarn install --network-timeout 1000000 && \
     yarn run build
@@ -20,7 +20,7 @@ FROM alpine:latest
 
 ENV TZ=Asia/Shanghai
 
-COPY --from=builder /Cloudreve/cloudreve /cloudreve/cloudreve
+COPY --from=builder /Cloudreve/cloudreve /Cloudreve/cloudreve
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
@@ -29,7 +29,7 @@ RUN apk add --no-cache tzdata ca-certificates && \
     rm -rf /var/cache/apk/* && \
     chmod -R 777 /cloudreve
 
-VOLUME /cloudreve
-WORKDIR /cloudreve
+VOLUME /Cloudreve
+WORKDIR /Cloudreve
 
-CMD ["/cloudreve/cloudreve"]
+CMD ["/Cloudreve/cloudreve"]
