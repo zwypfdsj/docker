@@ -27,7 +27,7 @@ RUN apk add --no-cache tzdata ca-certificates && \
     echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/* && \
-    chmod -R 777 /cloudreve
+    chmod -R 777 /Cloudreve
 
 VOLUME /Cloudreve
 WORKDIR /Cloudreve
