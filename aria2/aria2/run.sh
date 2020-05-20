@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 [[ -e aria2.session ]] || touch aria2.session
 
 [[ "$TRACKERS" = "no" ]] || bash /aria2/tracker.sh
 
-[[ $RPC_SECRET ]] &&
-    sed -i "s|.*rpc-secret=.*|rpc-secret=${RPC_SECRET}|g" /aria2/aria2.conf
+[[ $RPC_SECRET ]] && sed -i "s|.*rpc-secret=.*|rpc-secret=${RPC_SECRET}|g" /aria2/aria2.conf
 
 ARCH=$(uname -m)
 
