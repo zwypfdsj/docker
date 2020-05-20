@@ -6,7 +6,7 @@ RUN apk add git && \
     git clone -b go https://github.com/librespeed/speedtest.git && \
     cd speedtest && \
     go build -a -ldflags "-s -w" -o /go/speedtest && \
-    chmod +x /speedtest/speedtest
+    chmod +x /go/speedtest
 
 FROM alpine:latest
 
