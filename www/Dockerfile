@@ -69,10 +69,7 @@ RUN curl -sS https://getcomposer.org/installer | \
     sed -i "s|group = nobody|group = www|g" /etc/php7/php-fpm.d/www.conf && \
     sed -i "s|pm.max_children =.*|pm.max_children = ${PM_MAX_CHILDREN}|g" /etc/php7/php-fpm.d/www.conf && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TZ}|g" /etc/php7/php.ini && \
-    sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini
-
-RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    apk del tzdata curl && \
+    sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini && \
     rm -rf /var/cache/apk/*
 
 ENV HOME /www

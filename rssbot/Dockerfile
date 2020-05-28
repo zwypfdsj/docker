@@ -10,9 +10,7 @@ FROM alpine:latest
 
 ENV TZ=Asia/Shanghai
 
-RUN apk add --no-cache tzdata ca-certificates && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    apk del tzdata && \
+RUN apk add --no-cache -U tzdata ca-certificates && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder /go/flowerss-bot /usr/bin

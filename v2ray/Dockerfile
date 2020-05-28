@@ -14,8 +14,6 @@ FROM alpine:latest
 ENV TZ=Asia/Shanghai
 
 RUN apk add --no-cache tzdata ca-certificates && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    apk del tzdata && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder /go/v2ray /usr/bin

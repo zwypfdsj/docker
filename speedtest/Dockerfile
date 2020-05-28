@@ -15,8 +15,6 @@ ENV TZ=Asia/Shanghai
 COPY --from=builder /speedtest/speedtest /speedtest/speedtest
 
 RUN apk add --no-cache tzdata ca-certificates && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    apk del tzdata && \
     rm -rf /var/cache/apk/*
 
 VOLUME /speedtest

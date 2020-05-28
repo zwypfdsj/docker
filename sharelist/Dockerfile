@@ -4,10 +4,8 @@ ENV HOST 0.0.0.0
 ENV PORT 33001
 ENV TZ=Asia/Shanghai
 
-RUN apk add --no-cache tzdata git && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+RUN apk add --no-cache -U tzdata git && \
     git clone https://github.com/reruin/sharelist.git && \
-    apk del tzdata git && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /sharelist
