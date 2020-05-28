@@ -16,7 +16,6 @@ COPY --from=builder /speedtest/speedtest /speedtest/speedtest
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 

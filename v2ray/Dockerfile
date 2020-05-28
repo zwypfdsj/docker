@@ -2,7 +2,7 @@ FROM golang:alpine AS builder
 
 ENV CGO_ENABLED=0
 
-RUN apk add --no-cache git wget unzip && \
+RUN apk add git wget && \
     go get -insecure -u -d v2ray.com/core/... && \
     go build -a -ldflags "-s -w" -o /go/v2ray v2ray.com/core/main && \
     go build -a -ldflags "-s -w" -o /go/v2ctl v2ray.com/core/infra/control/main && \
@@ -15,7 +15,6 @@ ENV TZ=Asia/Shanghai
 
 RUN apk add --no-cache tzdata ca-certificates && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" > /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 

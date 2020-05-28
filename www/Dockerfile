@@ -6,7 +6,7 @@ ENV PM_MAX_CHILDREN 10
 
 RUN addgroup -g 82 -S www && \
     adduser -u 82 -D -S -G www www && \
-    apk add --no-cache tzdata bash curl ca-certificates \
+    apk add --no-cache tzdata curl ca-certificates \
     php7 \
     php7-bcmath \
     php7-brotli \
@@ -72,7 +72,6 @@ RUN curl -sS https://getcomposer.org/installer | \
     sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini
 
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" > /etc/timezone && \
     apk del tzdata curl && \
     rm -rf /var/cache/apk/*
 
@@ -80,4 +79,4 @@ ENV HOME /www
 VOLUME /www
 WORKDIR /www
 
-CMD ["/bin/bash"]
+CMD ["/bin/sh"]
