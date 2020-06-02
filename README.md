@@ -6,10 +6,16 @@
  - refer to [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf)
  - refer to [q3aql/aria2-static-builds](https://github.com/q3aql/aria2-static-builds)
 
+## clash
+ - refer to [Dreamacro/clash](https://github.com/Dreamacro/clash)
+
 ## cloudreve
 
  - refer to [Manual](https://docs.cloudreve.org)
  - refer to [Cloudreve](https://github.com/cloudreve)
+
+## gost
+ - refer to [ginuerzh/gost](https://github.com/ginuerzh/gost)
 
 ## rssbot
 
@@ -22,6 +28,14 @@
 ## speedtest
 
  - refer to [librespeed/speedtest](https://github.com/librespeed/speedtest/tree/go)
+
+## trojan
+
+ - refer to [trojan-gfw/trojan](https://github.com/trojan-gfw/trojan)
+
+## trojan-go
+
+ - refer to [p4gefau1t/trojan-go](https://github.com/p4gefau1t/trojan-go)
 
 ## v2ray
 
