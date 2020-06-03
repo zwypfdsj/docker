@@ -17,8 +17,10 @@ RUN apk add --no-cache tzdata ca-certificates && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder /trojan-go /usr/bin/
-COPY --from=builder /geosite.dat /usr/bin/
-COPY --from=builder /geoip.dat /usr/bin/
+COPY --from=builder /geosite.dat /trojan-go/geosite.dat
+COPY --from=builder /geoip.dat /trojan-go/geoip.dat
+
+WORKDIR /trojan-go
 
 ENTRYPOINT ["trojan-go", "-config"]
 CMD ["/trojan-go/config.json"]

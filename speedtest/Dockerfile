@@ -3,8 +3,8 @@ FROM golang:alpine AS builder
 ENV CGO_ENABLED=0
 
 RUN apk add git && \
-    git clone -b go https://github.com/librespeed/speedtest.git && \
-    cd speedtest && \
+    git clone https://github.com/librespeed/speedtest-go.git && \
+    cd speedtest-go && \
     go build -a -ldflags "-s -w" -o /speedtest && \
     chmod +x /speedtest
 

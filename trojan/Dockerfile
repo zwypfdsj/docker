@@ -16,5 +16,5 @@ RUN apk add --no-cache tzdata ca-certificates libstdc++ boost-system boost-progr
 
 COPY --from=builder /trojan/trojan /usr/bin/
 
-ENTRYPOINT ["trojan", "-c"]
+ENTRYPOINT ["trojan"]
 CMD ["/trojan/config.json"]
