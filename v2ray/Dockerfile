@@ -7,8 +7,8 @@ RUN apk add git wget && \
     cd v2ray-core && \
     go build -a -ldflags "-s -w" -o /v2ray ./main && \
     go build -a -ldflags "-s -w" -o /v2ctl ./infra/control/main && \
-    wget -O /geosite.dat https://github.com/v2ray/domain-list-community/releases/latest/download/dlc.dat && \
-    wget -O /geoip.dat https://github.com/v2ray/geoip/releases/latest/download/geoip.dat
+    wget -O /geosite.dat https://github.com/v2ray/domain-list-community/raw/release/dlc.dat && \
+    wget -O /geoip.dat https://github.com/v2ray/geoip/raw/release/geoip.dat
 
 FROM alpine:latest
 

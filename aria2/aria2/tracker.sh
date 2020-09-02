@@ -8,6 +8,7 @@ FONT_COLOR_SUFFIX="\033[0m"
 INFO="[${GREEN_FONT_PREFIX}INFO${FONT_COLOR_SUFFIX}]"
 ERROR="[${RED_FONT_PREFIX}ERROR${FONT_COLOR_SUFFIX}]"
 ARIA2_CONF=${1:-aria2.conf}
+DOWNLOADER="curl -fsSL --connect-timeout 3 --max-time 3 --retry 1"
 
 # BT tracker is provided by the following project.
 # https://github.com/XIU2/TrackersListCollection
@@ -18,18 +19,23 @@ ARIA2_CONF=${1:-aria2.conf}
 GET_TRACKERS() {
     echo && echo -e "$(date +"%m/%d %H:%M:%S") ${INFO} Get BT trackers ..."
     TRACKER=$(
-        curl -fsSL https://trackerslist.com/all_aria2.txt ||
-            curl -fsSL https://cdn.jsdelivr.net/gh/XIU2/TrackersListCollection/all_aria2.txt ||
-            curl -fsSL https://trackerslist.p3terx.workers.dev/all_aria2.txt ||
-            {
-                curl -fsSL https://ngosang.github.io/trackerslist/trackers_all.txt ||
-                curl -fsSL https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_all.txt ||
-                    curl -fsSL https://ngosang-trackerslist.p3terx.workers.dev/trackers_all.txt
-            } | awk NF | sed ":a;N;s/\n/,/g;ta"
+        ${DOWNLOADER} https://trackerslist.com/all_aria2.txt ||
+            ${DOWNLOADER} https://cdn.jsdelivr.net/gh/XIU2/TrackersListCollection/all_aria2.txt ||
+            ${DOWNLOADER} https://trackerslist.p3terx.workers.dev/all_aria2.txt
     )
     [ -z ${TRACKER} ] && {
-        echo
-        echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} Unable to get trackers, network failure or invalid links." && exit 1
+        TRACKER2=$(
+            {
+                ${DOWNLOADER} https://ngosang.github.io/trackerslist/trackers_all.txt ||
+                    ${DOWNLOADER} https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_all.txt
+            } | awk NF | sed ":a;N;s/\n/,/g;ta"
+        )
+        [ -z ${TRACKER2} ] && {
+            echo
+            echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} Unable to get trackers, network failure or invalid links." && exit 1
+        } || {
+            TRACKER="$TRACKER2"
+        }
     }
 }
 
