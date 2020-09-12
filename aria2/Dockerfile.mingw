@@ -8,9 +8,9 @@ RUN apt update && \
 
 RUN curl -L -O https://gmplib.org/download/gmp/gmp-6.2.0.tar.xz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.gz && \
-    curl -L -O https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz && \
+    curl -L -O https://www.sqlite.org/2020/sqlite-autoconf-3330000.tar.gz && \
     curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
-    curl -L -O https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz && \
+    curl -L -O https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz && \
     curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
 
 RUN tar -Jxf gmp-6.2.0.tar.xz && \
@@ -35,8 +35,8 @@ RUN tar -zxf expat-2.2.9.tar.gz && \
         --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` && \
     make install
 
-RUN tar -zxf sqlite-autoconf-3310100.tar.gz && \
-    cd sqlite-autoconf-3310100 && \
+RUN tar -zxf sqlite-autoconf-3330000.tar.gz && \
+    cd sqlite-autoconf-3330000 && \
     ./configure \
         --disable-shared \
         --enable-static \
@@ -59,8 +59,8 @@ RUN tar -zxf zlib-1.2.11.tar.gz && \
         --static && \
     make install
 
-RUN tar -zxf c-ares-1.16.0.tar.gz && \
-    cd c-ares-1.16.0 && \
+RUN tar -zxf c-ares-1.16.1.tar.gz && \
+    cd c-ares-1.16.1 && \
     ./configure \
         --disable-shared \
         --enable-static \
