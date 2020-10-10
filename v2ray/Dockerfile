@@ -1,12 +1,14 @@
 FROM golang:alpine AS builder
 
-ENV CGO_ENABLED=0
-
 RUN apk add git wget && \
     git clone https://github.com/v2fly/v2ray-core.git && \
     cd v2ray-core && \
-    go build -a -ldflags "-s -w" -o /v2ray ./main && \
-    go build -a -ldflags "-s -w" -o /v2ctl ./infra/control/main && \
+    go mod download && \
+    export CODENAME="Lake" && \
+    export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
+    export VERSIONTAG=$(git describe --abbrev=0 --tags) && \
+    CGO_ENABLED=0 go build -o /v2ray -trimpath -ldflags "-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILDNAME} -X v2ray.version=${VERSIONTAG}" ./main && \
+    CGO_ENABLED=0 go build -o /v2ctl -trimpath -ldflags "-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILDNAME} -X v2ray.version=${VERSIONTAG}" -tags confonly ./infra/control/main && \
     wget -O /geosite.dat https://github.com/v2ray/domain-list-community/raw/release/dlc.dat && \
     wget -O /geoip.dat https://github.com/v2ray/geoip/raw/release/geoip.dat
 
