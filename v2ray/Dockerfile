@@ -5,12 +5,12 @@ RUN apk add git wget && \
     cd v2ray-core && \
     go mod download && \
     export CODENAME="Lake" && \
-    export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
-    export VERSIONTAG=$(git describe --abbrev=0 --tags) && \
-    CGO_ENABLED=0 go build -o /v2ray -trimpath -ldflags "-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILDNAME} -X v2ray.version=${VERSIONTAG}" ./main && \
-    CGO_ENABLED=0 go build -o /v2ctl -trimpath -ldflags "-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILDNAME} -X v2ray.version=${VERSIONTAG}" -tags confonly ./infra/control/main && \
-    wget -O /geosite.dat https://github.com/v2ray/domain-list-community/raw/release/dlc.dat && \
-    wget -O /geoip.dat https://github.com/v2ray/geoip/raw/release/geoip.dat
+    export BUILD=$(date '+%Y%m%d-%H%M%S') && \
+    export LDFLAGS="-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILD}" && \
+    CGO_ENABLED=0 go build -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
+    CGO_ENABLED=0 go build -o /v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main && \
+    wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
+    wget -O /geoip.dat https://github.com/v2fly/geoip/raw/release/geoip.dat
 
 FROM alpine:latest
 
