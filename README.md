@@ -1,6 +1,4 @@
 # README
-![Aria2](https://github.com/zwypfdsj/docker/workflows/Aria2/badge.svg)
-![Cloudreve](https://github.com/zwypfdsj/docker/workflows/Cloudreve/badge.svg)
 
 ## aria2
  - refer to [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf)
@@ -27,7 +25,7 @@
 
 ## speedtest
 
- - refer to [librespeed/speedtest](https://github.com/librespeed/speedtest/tree/go)
+ - refer to [librespeed/speedtest-go](https://github.com/librespeed/speedtest-go)
 
 ## trojan
 
@@ -39,4 +37,4 @@
 
 ## v2ray
 
- - refer to [Manual](https://github.com/teddysun/across/tree/master/docker/v2ray)
+ - refer to [user-package.sh](https://raw.githubusercontent.com/v2fly/v2ray-core/master/release/user-package.sh)

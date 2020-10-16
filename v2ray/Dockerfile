@@ -4,9 +4,9 @@ RUN apk add git wget && \
     git clone https://github.com/v2fly/v2ray-core.git && \
     cd v2ray-core && \
     go mod download && \
-    export CODENAME="Lake" && \
-    export BUILD=$(date '+%Y%m%d-%H%M%S') && \
-    export LDFLAGS="-s -w -buildid= -X v2ray.codename=${CODENAME} -X v2ray.build=${BUILD}" && \
+    export CODENAME=$(git describe --tags) && \
+    export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
+    export LDFLAGS="-s -w -buildid= -X v2ray.com/core.codename=${CODENAME} -X v2ray.com/core.build=${BUILDNAME}" && \
     CGO_ENABLED=0 go build -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
     CGO_ENABLED=0 go build -o /v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main && \
     wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
