@@ -4,7 +4,7 @@ RUN apk add git wget && \
     git clone https://github.com/v2fly/v2ray-core.git && \
     cd v2ray-core && \
     go mod download && \
-    export CODENAME=$(git describe --tags) && \
+    export CODENAME=$(git rev-parse --short HEAD) && \
     export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
     export LDFLAGS="-s -w -buildid= -X v2ray.com/core.codename=${CODENAME} -X v2ray.com/core.build=${BUILDNAME}" && \
     CGO_ENABLED=0 go build -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
