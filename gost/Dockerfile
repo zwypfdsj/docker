@@ -1,7 +1,5 @@
 FROM golang:alpine AS builder
 
-#ENV CGO_ENABLED=0
-
 RUN apk add git gcc musl-dev && \
     git clone https://github.com/ginuerzh/gost.git && \
     cd gost/cmd/gost && \

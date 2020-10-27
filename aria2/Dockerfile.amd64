@@ -7,7 +7,7 @@ ENV CC gcc
 ENV CXX g++
 
 RUN apt update && \
-    apt install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev
+    DEBIAN_FRONTEND=noninteractive apt install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev
 
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz && \

@@ -4,7 +4,7 @@ ENV HOST x86_64-w64-mingw32
 ENV PREFIX /usr/local/$HOST
 
 RUN apt update && \
-    apt install -y git curl mingw-w64 make binutils autoconf automake autopoint autotools-dev libtool pkg-config dpkg-dev libcppunit-dev
+    DEBIAN_FRONTEND=noninteractive apt install -y git curl mingw-w64 make binutils autoconf automake autopoint autotools-dev libtool pkg-config dpkg-dev libcppunit-dev
 
 RUN curl -L -O https://gmplib.org/download/gmp/gmp-6.2.0.tar.xz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz && \

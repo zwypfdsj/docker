@@ -1,11 +1,9 @@
 FROM golang:alpine AS builder
 
-ENV CGO_ENABLED=0
-
 RUN apk add git wget && \
     git clone https://github.com/p4gefau1t/trojan-go.git && \
     cd trojan-go && \
-    go build -a -tags "full" -ldflags "-s -w" -o /trojan-go && \
+    CGO_ENABLED=0 go build -a -tags "full" -ldflags "-s -w" -o /trojan-go && \
     wget https://github.com/v2ray/domain-list-community/raw/release/dlc.dat -O /geosite.dat && \
     wget https://github.com/v2ray/geoip/raw/release/geoip.dat -O /geoip.dat
 

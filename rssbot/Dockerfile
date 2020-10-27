@@ -1,7 +1,5 @@
 FROM golang:alpine AS builder
 
-#ENV CGO_ENABLED=0
-
 RUN apk add git gcc libc-dev && \
     git clone https://github.com/indes/flowerss-bot.git && \
     cd flowerss-bot && \

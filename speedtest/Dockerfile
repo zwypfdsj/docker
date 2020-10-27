@@ -1,11 +1,9 @@
 FROM golang:alpine AS builder
 
-ENV CGO_ENABLED=0
-
 RUN apk add git && \
     git clone https://github.com/librespeed/speedtest-go.git && \
     cd speedtest-go && \
-    go build -a -ldflags "-s -w" -o /speedtest-go && \
+    CGO_ENABLED=0 go build -a -ldflags "-s -w" -o /speedtest-go && \
     chmod +x /speedtest-go
 
 FROM alpine:latest
