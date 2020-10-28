@@ -72,8 +72,5 @@ RUN curl -sS https://getcomposer.org/installer | \
     sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini && \
     rm -rf /var/cache/apk/*
 
-ENV HOME /www
-VOLUME /www
-WORKDIR /www
-
-CMD ["/bin/sh"]
+EXPOSE 9000
+CMD ["php-fpm"]
