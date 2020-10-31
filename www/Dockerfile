@@ -73,4 +73,4 @@ RUN curl -sS https://getcomposer.org/installer | \
     rm -rf /var/cache/apk/*
 
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["php-fpm7"]
