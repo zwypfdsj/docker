@@ -1,8 +1,9 @@
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
-ENV PHP_MEMORY_LIMIT 512M
-ENV PM_MAX_CHILDREN 10
+ENV TZ="Asia/Shanghai"
+ENV USER=www
+ENV GROUP=www
+ENV PM_MAX_CHILDREN=10
 
 RUN addgroup -g 82 -S www && \
     adduser -u 82 -D -S -G www www && \
@@ -63,13 +64,10 @@ RUN addgroup -g 82 -S www && \
 RUN curl -sS https://getcomposer.org/installer | \
     php7 -- --install-dir=/usr/bin --filename=composer && \
     sed -i "s|;daemonize = yes|daemonize = no|g" /etc/php7/php-fpm.conf && \
-    sed -i "s|user = nobody|user = www|g" /etc/php7/php-fpm.conf && \
-    sed -i "s|group = nobody|group = www|g" /etc/php7/php-fpm.conf && \
-    sed -i "s|user = nobody|user = www|g" /etc/php7/php-fpm.d/www.conf && \
-    sed -i "s|group = nobody|group = www|g" /etc/php7/php-fpm.d/www.conf && \
+    sed -i "s|user = nobody|user = ${USER}|g" /etc/php7/php-fpm.d/www.conf && \
+    sed -i "s|group = nobody|group = ${GROUP}|g" /etc/php7/php-fpm.d/www.conf && \
+    sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php7/php-fpm.d/www.conf && \
     sed -i "s|pm.max_children =.*|pm.max_children = ${PM_MAX_CHILDREN}|g" /etc/php7/php-fpm.d/www.conf && \
-    sed -i "s|;date.timezone =.*|date.timezone = ${TZ}|g" /etc/php7/php.ini && \
-    sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|g" /etc/php7/php.ini && \
     rm -rf /var/cache/apk/*
 
 EXPOSE 9000
