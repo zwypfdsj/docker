@@ -17,5 +17,5 @@ COPY --from=builder /opt/caddy /caddy
 VOLUME /www
 WORKDIR /www
 
-ENTRYPOINT ["caddy", "run", "--config"]
-CMD ["Caddyfile"]
+ENTRYPOINT ["/caddy", "run", "--config"]
+CMD ["/www/Caddyfile"]
