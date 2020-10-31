@@ -4,9 +4,10 @@ RUN apk add git && \
     go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     xcaddy build --with github.com/caddy-dns/cloudflare --output /opt/caddy
 
+
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 ENV HOME /www
 
 RUN apk add --no-cache tzdata ca-certificates && \

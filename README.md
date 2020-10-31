@@ -4,16 +4,17 @@
  - refer to [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf)
  - refer to [q3aql/aria2-static-builds](https://github.com/q3aql/aria2-static-builds)
 
+## caddy
+ - refer to [caddyserver/caddy](https://github.com/caddyserver/caddy)
+ - refer to [Documentation](https://caddyserver.com/docs/)
+
 ## clash
  - refer to [Dreamacro/clash](https://github.com/Dreamacro/clash)
 
 ## cloudreve
 
- - refer to [Manual](https://docs.cloudreve.org)
  - refer to [Cloudreve](https://github.com/cloudreve)
-
-## gost
- - refer to [ginuerzh/gost](https://github.com/ginuerzh/gost)
+ - refer to [Documentation](https://docs.cloudreve.org)
 
 ## rssbot
 
@@ -27,14 +28,7 @@
 
  - refer to [librespeed/speedtest-go](https://github.com/librespeed/speedtest-go)
 
-## trojan
-
- - refer to [trojan-gfw/trojan](https://github.com/trojan-gfw/trojan)
-
-## trojan-go
-
- - refer to [p4gefau1t/trojan-go](https://github.com/p4gefau1t/trojan-go)
-
 ## v2ray
 
- - refer to [user-package.sh](https://raw.githubusercontent.com/v2fly/v2ray-core/master/release/user-package.sh)
+ - refer to [v2fly/v2ray-core](https://github.com/v2fly/v2ray-core)
+ - refer to [Documentation](https://www.v2fly.org/config/overview.html)

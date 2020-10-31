@@ -1,10 +1,10 @@
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 
 COPY aria2 /aria2/
 
-RUN apk add --no-cache -U bash tzdata curl ca-certificates && \
+RUN apk add --no-cache bash tzdata curl ca-certificates && \
     rm -rf /var/cache/apk/* && \
     chmod -R 777 /aria2
 

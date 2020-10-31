@@ -16,6 +16,7 @@ RUN cd /Cloudreve && \
     export VERSION=$(git describe --tags) && \
     go build -a -o cloudreve -ldflags "-s -w -X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'"
 
+
 FROM alpine:latest
 
 ENV TZ=Asia/Shanghai

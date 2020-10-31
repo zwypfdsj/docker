@@ -2,9 +2,9 @@ FROM node:lts-alpine
 
 ENV HOST 0.0.0.0
 ENV PORT 33001
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 
-RUN apk add --no-cache -U tzdata git && \
+RUN apk add --no-cache tzdata git && \
     git clone https://github.com/reruin/sharelist.git && \
     rm -rf /var/cache/apk/*
 

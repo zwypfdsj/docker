@@ -12,9 +12,10 @@ RUN apk add git wget && \
     wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
     wget -O /geoip.dat https://github.com/v2fly/geoip/raw/release/geoip.dat
 
+
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 
 RUN apk add --no-cache tzdata ca-certificates && \
     rm -rf /var/cache/apk/*

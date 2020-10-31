@@ -6,11 +6,12 @@ RUN apk add git && \
     CGO_ENABLED=0 go build -a -ldflags "-s -w" -o /speedtest-go && \
     chmod +x /speedtest-go
 
+
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 
-RUN apk add --no-cache -U tzdata ca-certificates && \
+RUN apk add --no-cache tzdata ca-certificates && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder /speedtest-go /speedtest/speedtest-go

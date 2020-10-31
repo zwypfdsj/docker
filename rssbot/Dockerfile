@@ -5,11 +5,12 @@ RUN apk add git gcc libc-dev && \
     cd flowerss-bot && \
     go build -a -ldflags "-s -w" -o /rssbot
 
+
 FROM alpine:latest
 
-ENV TZ=Asia/Shanghai
+ENV TZ="Asia/Shanghai"
 
-RUN apk add --no-cache -U tzdata ca-certificates && \
+RUN apk add --no-cache tzdata ca-certificates && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder /rssbot /usr/bin/
