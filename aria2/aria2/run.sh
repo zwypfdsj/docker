@@ -10,10 +10,10 @@ ARCH=$(uname -m)
 
 if [ "$ARCH" = "x86_64" ]
 then
-    curl -L -o aria2c https://github.com/zwypfdsj/docker/releases/latest/download/aria2c-amd64
+    curl -L -o aria2c https://github.com/zwypfdsj/docker/raw/master/aria2/aria2c-amd64
 elif [ "$ARCH" = "aarch64" ]
 then
-    curl -L -o aria2c https://github.com/zwypfdsj/docker/releases/latest/download/aria2c-arm64
+    curl -L -o aria2c https://github.com/zwypfdsj/docker/raw/master/aria2/aria2c-arm64
 else
     exit 1
 fi

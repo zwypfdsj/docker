@@ -10,24 +10,17 @@ ERROR="[${RED_FONT_PREFIX}ERROR${FONT_COLOR_SUFFIX}]"
 ARIA2_CONF=${1:-aria2.conf}
 DOWNLOADER="curl -fsSL --connect-timeout 3 --max-time 3 --retry 1"
 
-# BT tracker is provided by the following project.
-# https://github.com/XIU2/TrackersListCollection
-# https://github.com/ngosang/trackerslist
-# Fallback URLs provided by jsDelivr and Cloudflare Workers
-# https://www.jsdelivr.com
-# https://workers.cloudflare.com/
 GET_TRACKERS() {
     echo && echo -e "$(date +"%m/%d %H:%M:%S") ${INFO} Get BT trackers ..."
     TRACKER=$(
-        ${DOWNLOADER} https://trackerslist.com/all_aria2.txt ||
-            ${DOWNLOADER} https://cdn.jsdelivr.net/gh/XIU2/TrackersListCollection/all_aria2.txt ||
-            ${DOWNLOADER} https://trackerslist.p3terx.workers.dev/all_aria2.txt
+        ${DOWNLOADER} https://cdn.jsdelivr.net/gh/XIU2/TrackersListCollection/all_aria2.txt ||
+            ${DOWNLOADER} https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_all.txt
     )
     [ -z ${TRACKER} ] && {
         TRACKER2=$(
             {
-                ${DOWNLOADER} https://ngosang.github.io/trackerslist/trackers_all.txt ||
-                    ${DOWNLOADER} https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_all.txt
+                ${DOWNLOADER} https://trackerslist.com/all_aria2.txt ||
+                    ${DOWNLOADER} https://ngosang.github.io/trackerslist/trackers_all.txt
             } | awk NF | sed ":a;N;s/\n/,/g;ta"
         )
         [ -z ${TRACKER2} ] && {

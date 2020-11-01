@@ -3,7 +3,11 @@ FROM golang:alpine AS builder
 RUN apk add git gcc libc-dev && \
     git clone https://github.com/indes/flowerss-bot.git && \
     cd flowerss-bot && \
-    go build -a -ldflags "-s -w" -o /rssbot
+    export VERSION=$(git describe --tags) && \
+    export DATE=$(date '+%Y%m%d-%H%M%S') && \
+    export COMMIT=$(git rev-parse --short HEAD) && \
+    export LDFLAGS="-s -w -X github.com/indes/flowerss-bot/config.version=${VERSION} -X github.com/indes/flowerss-bot/config.date=${DATE} -X github.com/indes/flowerss-bot/config.commit=${COMMIT}" && \
+    go build -a -ldflags "$LDFLAGS" -o /rssbot
 
 
 FROM alpine:latest
