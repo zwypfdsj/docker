@@ -8,9 +8,6 @@
  - refer to [caddyserver/caddy](https://github.com/caddyserver/caddy)
  - refer to [Documentation](https://caddyserver.com/docs/)
 
-## clash
- - refer to [Dreamacro/clash](https://github.com/Dreamacro/clash)
-
 ## cloudreve
 
  - refer to [Cloudreve](https://github.com/cloudreve)

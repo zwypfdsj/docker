@@ -15,9 +15,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends tzdata ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /dashboard /nezha/dashboard
+COPY --from=builder /dashboard /nezha/
 
-WORKDIR /dashboard
-VOLUME /dashboard/data
+WORKDIR /nezha
+VOLUME /nezha/data
 
 CMD ["/nezha/dashboard"]
