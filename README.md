@@ -16,13 +16,13 @@
  - refer to [Cloudreve](https://github.com/cloudreve)
  - refer to [Documentation](https://docs.cloudreve.org)
 
+## nezha
+
+ - refer to [naiba/nezha](https://github.com/naiba/nezha)
+
 ## rssbot
 
  - refer to [indes/flowerss-bot](https://github.com/indes/flowerss-bot)
-
-## sharelist
-
- - refer to [reruin/sharelist](https://github.com/reruin/sharelist)
 
 ## speedtest
 

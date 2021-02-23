@@ -6,7 +6,7 @@ COPY aria2 /aria2/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends tzdata curl ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
     chmod -R 777 /aria2
 
 WORKDIR /aria2
