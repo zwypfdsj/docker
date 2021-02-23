@@ -1,22 +1,22 @@
-FROM golang:alpine AS builder
+FROM golang:latest AS builder
 
-RUN apk add git && \
-    go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
+RUN go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
     xcaddy build --with github.com/caddy-dns/cloudflare --output /opt/caddy
 
 
-FROM alpine:latest
+FROM debian:stable-slim
 
 ENV TZ="Asia/Shanghai"
 ENV HOME /www
 
-RUN apk add --no-cache tzdata ca-certificates && \
-    rm -rf /var/cache/apk/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends tzdata ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/caddy /caddy
 
-VOLUME /www
 WORKDIR /www
+VOLUME /www
 
 ENTRYPOINT ["/caddy", "run", "--config"]
 CMD ["/www/Caddyfile"]

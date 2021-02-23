@@ -2,14 +2,13 @@ FROM golang:latest AS builder
 
 RUN apt-get update && \
     apt-get install -y git wget && \
-    git clone https://github.com/v2fly/v2ray-core.git && \
-    cd v2ray-core && \
+    git clone https://github.com/XTLS/Xray-core.git && \
+    cd Xray-core && \
     export CODENAME=$(git rev-parse --short HEAD) && \
     export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
     export VERSIONTAG=$(git describe --abbrev=0 --tags) && \
-    export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}" && \
-    CGO_ENABLED=0 go build -a -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
-    CGO_ENABLED=0 go build -a -o /v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main && \
+    export LDFLAGS="-s -w -buildid= -X github.com/xtls/xray-core/core.codename=${CODENAME} -X github.com/xtls/xray-core/core.build=${BUILDNAME} -X github.com/xtls/xray-core/core.version=${VERSIONTAG}" && \
+    CGO_ENABLED=0 go build -a -o /xray -trimpath -ldflags "$LDFLAGS" ./main && \
     wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
     wget -O /geoip.dat https://github.com/v2fly/geoip/raw/release/geoip.dat
 
@@ -22,13 +21,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends tzdata ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /v2ray /usr/bin/
-COPY --from=builder /v2ctl /usr/bin/
+COPY --from=builder /xray /usr/bin/
 COPY --from=builder /geoip.dat /usr/bin/
 COPY --from=builder /geosite.dat /usr/bin/
 
-WORKDIR /v2ray
-VOLUME /v2ray
+WORKDIR /xray
+VOLUME /xray
 
-ENTRYPOINT ["v2ray", "-config"]
-CMD ["/v2ray/config.json"]
+ENTRYPOINT ["xray", "-config"]
+CMD ["/xray/config.json"]

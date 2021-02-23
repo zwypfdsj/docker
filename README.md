@@ -32,3 +32,7 @@
 
  - refer to [v2fly/v2ray-core](https://github.com/v2fly/v2ray-core)
  - refer to [Documentation](https://www.v2fly.org/config/overview.html)
+
+## xray
+
+ - refer to [XTLS/Xray-core](https://github.com/XTLS/Xray-core)
