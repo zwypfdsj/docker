@@ -1,6 +1,8 @@
 FROM ubuntu:20.04
 
 ENV PREFIX /opt/aria2
+ENV PKG_CONFIG_PATH $PREFIX/lib/pkgconfig/
+ENV LD_LIBRARY_PATH $PREFIX/lib/
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
