@@ -6,15 +6,15 @@ ENV PREFIX /usr/local/$HOST
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y git curl mingw-w64 make binutils autoconf automake autopoint autotools-dev libtool pkg-config dpkg-dev libcppunit-dev
 
-RUN curl -L -O https://gmplib.org/download/gmp/gmp-6.2.0.tar.xz && \
+RUN curl -L -O https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz && \
-    curl -L -O https://www.sqlite.org/2020/sqlite-autoconf-3330000.tar.gz && \
+    curl -L -O https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz && \
     curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
-    curl -L -O https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz && \
+    curl -L -O https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz && \
     curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
 
-RUN tar -Jxf gmp-6.2.0.tar.xz && \
-    cd gmp-6.2.0 && \
+RUN tar -Jxf gmp-6.2.1.tar.xz && \
+    cd gmp-6.2.1 && \
     ./configure \
         --disable-shared \
         --enable-static \
@@ -35,8 +35,8 @@ RUN tar -zxf expat-2.2.10.tar.gz && \
         --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` && \
     make install
 
-RUN tar -zxf sqlite-autoconf-3330000.tar.gz && \
-    cd sqlite-autoconf-3330000 && \
+RUN tar -zxf sqlite-autoconf-3340100.tar.gz && \
+    cd sqlite-autoconf-3340100 && \
     ./configure \
         --disable-shared \
         --enable-static \
@@ -59,8 +59,8 @@ RUN tar -zxf zlib-1.2.11.tar.gz && \
         --static && \
     make install
 
-RUN tar -zxf c-ares-1.16.1.tar.gz && \
-    cd c-ares-1.16.1 && \
+RUN tar -zxf c-ares-1.17.1.tar.gz && \
+    cd c-ares-1.17.1 && \
     ./configure \
         --disable-shared \
         --enable-static \
