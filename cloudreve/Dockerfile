@@ -1,6 +1,6 @@
 FROM node:lts AS fe-builder
 
-RUN apt update && apt install -y git && \
+RUN apt-get update && apt-get install -y git && \
     git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /Cloudreve && \
     cd /Cloudreve/assets && \
     yarn install --network-timeout 1000000 && \

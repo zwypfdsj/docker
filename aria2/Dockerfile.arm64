@@ -1,18 +1,17 @@
 FROM ubuntu:20.04
 
-ENV PREFIX /opt/aria2/build_libs
-ENV PKG_CONFIG_PATH /opt/aria2/build_libs/lib/pkgconfig/
-ENV LD_LIBRARY_PATH /opt/aria2/build_libs/lib/
 ENV HOST aarch64-linux-gnu
+ENV PREFIX /opt/aria2
 ENV CC="$HOST-gcc"
 ENV CXX="$HOST-g++"
 ENV AR="$HOST-ar"
 ENV LD="$HOST-ld"
 ENV RANLIB="$HOST-ranlib"
 ENV STRIP="$HOST-strip"
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev gcc-$HOST g++-$HOST
+RUN apt-get update && \
+    apt-get install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev gcc-$HOST g++-$HOST
 
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz && \
@@ -28,28 +27,27 @@ RUN tar -zxf zlib-1.2.11.tar.gz && \
 
 RUN tar -zxf expat-2.2.10.tar.gz && \
     cd expat-2.2.10 && \
-    ./configure --prefix=$PREFIX --host=$HOST --enable-static --enable-shared && \
+    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 
 RUN tar -zxf c-ares-1.17.1.tar.gz && \
     cd c-ares-1.17.1 && \
-    ./configure --prefix=$PREFIX --host=$HOST --enable-static --disable-shared && \
+    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 
 RUN tar -zxf openssl-1.1.1j.tar.gz && \
     cd openssl-1.1.1j && \
-    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib STRIP=strip ./Configure linux-aarch64 --cross-compile-prefix=$HOST- --prefix=$PREFIX shared && \
+    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib STRIP=strip ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX linux-aarch64 shared && \
     make install
 
 RUN tar -zxf sqlite-autoconf-3340100.tar.gz && \
     cd sqlite-autoconf-3340100 && \
-    ./configure --prefix=$PREFIX --host=$HOST --enable-static --enable-shared && \
+    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 
 RUN tar -zxf libssh2-1.9.0.tar.gz && \
-    rm -rf $PREFIX/lib/pkgconfig/libssh2.pc && \
     cd libssh2-1.9.0 && \
-    ./configure --prefix=$PREFIX --host=$HOST --enable-static --disable-shared && \
+    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 
 RUN git clone https://github.com/aria2/aria2.git && \
@@ -64,17 +62,17 @@ RUN git clone https://github.com/aria2/aria2.git && \
     autoreconf -i && \
     ./configure \
         --host=$HOST \
-        --prefix=/usr \
-        --without-libxml2 \
-        --without-libgcrypt \
-        --with-openssl \
-        --without-libnettle \
+        --prefix=$PREFIX \
         --without-gnutls \
         --without-libgmp \
+        --without-libxml2 \
+        --without-libgcrypt \
+        --without-libnettle \
+        --with-openssl \
+        --with-libz \
+        --with-libexpat \
         --with-libssh2 \
         --with-sqlite3 \
-        --with-libexpat \
-        --with-libz \
         --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
         ARIA2_STATIC=yes \
         --enable-shared=no && \
