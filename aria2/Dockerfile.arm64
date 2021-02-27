@@ -2,6 +2,8 @@ FROM ubuntu:20.04
 
 ENV HOST aarch64-linux-gnu
 ENV PREFIX /opt/aria2
+ENV PKG_CONFIG_PATH $PREFIX/lib/pkgconfig/
+ENV LD_LIBRARY_PATH $PREFIX/lib/
 ENV CC="$HOST-gcc"
 ENV CXX="$HOST-g++"
 ENV AR="$HOST-ar"
