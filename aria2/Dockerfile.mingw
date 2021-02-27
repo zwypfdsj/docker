@@ -15,10 +15,10 @@ RUN apt-get update && \
 
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz && \
-    curl -L -O https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz && \
+    curl -L -O https://github.com/c-ares/c-ares/releases/download/cares-1_16_1/c-ares-1.16.1.tar.gz && \
     curl -L -O https://www.openssl.org/source/openssl-1.1.1j.tar.gz && \
     curl -L -O https://www.sqlite.org/2021/sqlite-autoconf-3340100.tar.gz && \
-    curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
+    curl -L -O https://github.com/libssh2/libssh2/releases/download/libssh2-1.9.0/libssh2-1.9.0.tar.gz
 
 RUN tar -zxf zlib-1.2.11.tar.gz && \
     cd zlib-1.2.11 && \
@@ -30,8 +30,8 @@ RUN tar -zxf expat-2.2.10.tar.gz && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 
-RUN tar -zxf c-ares-1.17.1.tar.gz && \
-    cd c-ares-1.17.1 && \
+RUN tar -zxf c-ares-1.16.1.tar.gz && \
+    cd c-ares-1.16.1 && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make install
 

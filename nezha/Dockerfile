@@ -3,7 +3,7 @@ FROM golang:latest AS builder
 RUN apt-get update && \
     apt-get install -y build-essential git && \
     git clone https://github.com/naiba/nezha.git && \
-    cd cmd/dashboard && \
+    cd nezha/cmd/dashboard && \
     go build -a -trimpath -ldflags="-s -w" -o /dashboard
 
 
