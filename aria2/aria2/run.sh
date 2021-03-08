@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 [[ -e aria2.session ]] || touch aria2.session
 
@@ -10,10 +10,10 @@ ARCH=$(uname -m)
 
 if [ "$ARCH" = "x86_64" ]
 then
-    curl -L -o aria2c https://github.com/zwypfdsj/docker/raw/master/aria2/aria2c-amd64
+    mv /aria2/aria2c-amd64 /aria2/aria2c && rm /aria2/aria2c-arm64
 elif [ "$ARCH" = "aarch64" ]
 then
-    curl -L -o aria2c https://github.com/zwypfdsj/docker/raw/master/aria2/aria2c-arm64
+    mv /aria2/aria2c-arm64 /aria2/aria2c && rm /aria2/aria2c-amd64
 else
     exit 1
 fi
