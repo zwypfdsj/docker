@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y build-essential git && \
     git clone https://github.com/naiba/nezha.git /opt/nezha && \
     cd /opt/nezha/cmd/dashboard && \
-    CGO_ENABLED=0 go build -a -trimpath -ldflags="-s -w" -o /opt/dashboard
+    go build -a -trimpath -ldflags="-s -w" -o /opt/dashboard
 
 
 FROM debian:stable-slim
