@@ -2,9 +2,9 @@ FROM golang:latest AS builder
 
 RUN apt-get update && \
     apt-get install -y build-essential git && \
-    git clone https://github.com/naiba/nezha.git && \
-    cd nezha/cmd/dashboard && \
-    go build -a -trimpath -ldflags="-s -w" -o /dashboard
+    git clone https://github.com/naiba/nezha.git /opt/nezha && \
+    cd /opt/nezha/cmd/dashboard && \
+    CGO_ENABLED=0 go build -a -trimpath -ldflags="-s -w" -o /opt/dashboard
 
 
 FROM debian:stable-slim
@@ -15,7 +15,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends tzdata ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /dashboard /nezha/
+COPY --from=builder /opt/dashboard /nezha/
+COPY --from=builder /opt/nezha/resource /nezha/resource
 
 WORKDIR /nezha
 VOLUME /nezha/data
