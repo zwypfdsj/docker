@@ -9,7 +9,6 @@ RUN apt-get update && \
     export VERSIONTAG=$(git describe --abbrev=0 --tags) && \
     export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}" && \
     CGO_ENABLED=0 go build -a -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
-    CGO_ENABLED=0 go build -a -o /v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main && \
     wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
     wget -O /geoip.dat https://github.com/v2fly/geoip/raw/release/geoip.dat
 
@@ -23,7 +22,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /v2ray /usr/bin/
-COPY --from=builder /v2ctl /usr/bin/
 COPY --from=builder /geoip.dat /usr/bin/
 COPY --from=builder /geosite.dat /usr/bin/
 
