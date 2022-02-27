@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-ENV HOST aarch64-linux-musl
+ENV HOST x86_64-linux-musl
 ENV PREFIX /opt/aria2
 ENV PKG_CONFIG_PATH $PREFIX/lib/pkgconfig/
 ENV LD_LIBRARY_PATH $PREFIX/lib/
@@ -29,7 +29,7 @@ RUN tar -zxf musl-cross.tgz -C /opt && \
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-* && \
-    ./configure --prefix=$PREFIX --static --zlib-compat && \
+    CHOST="${HOST}" ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
@@ -44,7 +44,7 @@ RUN tar -zxf c-ares-*.tar.gz && \
 
 RUN tar -zxf openssl-*.tar.gz && \
     cd openssl-* && \
-    ./Configure --cross-compile-prefix=${HOST}- --prefix=$PREFIX linux-aarch64 && \
+    ./Configure --cross-compile-prefix=${HOST}- --prefix=$PREFIX linux-x86_64 && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \

@@ -25,11 +25,11 @@ RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz"
 
 RUN tar -zxf musl-cross.tgz -C /opt && \
-    export PATH=$PATH:/opt/${HOST}-musl-cross/bin
+    export PATH=$PATH:/opt/${HOST}-cross/bin
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-* && \
-    CHOST="${HOST}" ./configure --prefix=$PREFIX --static --zlib-compat && \
+    ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
