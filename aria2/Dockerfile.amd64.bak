@@ -1,19 +1,12 @@
 FROM ubuntu:latest
 
-ENV HOST aarch64-linux-gnu
 ENV PREFIX /opt/aria2
 ENV PKG_CONFIG_PATH $PREFIX/lib/pkgconfig/
 ENV LD_LIBRARY_PATH $PREFIX/lib/
-ENV CC="$HOST-gcc"
-ENV CXX="$HOST-g++"
-ENV AR="$HOST-ar"
-ENV LD="$HOST-ld"
-ENV RANLIB="$HOST-ranlib"
-ENV STRIP="$HOST-strip"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev gcc-$HOST g++-$HOST
+    apt-get install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev
 
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_4_6/expat-2.4.6.tar.gz && \
@@ -29,27 +22,27 @@ RUN tar -zxf zlib-1.2.11.tar.gz && \
 
 RUN tar -zxf expat-2.4.6.tar.gz && \
     cd expat-2.4.6 && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf c-ares-1.18.1.tar.gz && \
     cd c-ares-1.18.1 && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf openssl-3.0.1.tar.gz && \
     cd openssl-3.0.1 && \
-    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib STRIP=strip ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX linux-aarch64 shared && \
+    ./Configure --prefix=$PREFIX linux-x86_64 shared && \
     make && make install
 
 RUN tar -zxf sqlite-autoconf-3380000.tar.gz && \
     cd sqlite-autoconf-3380000 && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf libssh2-1.10.0.tar.gz && \
     cd libssh2-1.10.0 && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    ./configure --prefix=$PREFIX --with-crypto=openssl --disable-shared --enable-static && \
     make && make install
 
 RUN git clone https://github.com/aria2/aria2.git && \
@@ -63,7 +56,6 @@ RUN git clone https://github.com/aria2/aria2.git && \
     sed -i 's|SPLIT, "5", 1, -1|SPLIT, "128", 1, -1|g' ./src/OptionHandlerFactory.cc && \
     autoreconf -i && \
     ./configure \
-        --host=$HOST \
         --prefix=$PREFIX \
         --without-gnutls \
         --without-libgmp \
@@ -79,4 +71,4 @@ RUN git clone https://github.com/aria2/aria2.git && \
         ARIA2_STATIC=yes \
         --enable-shared=no && \
     make && \
-    $HOST-strip src/aria2c
+    strip src/aria2c
