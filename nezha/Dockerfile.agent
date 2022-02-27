@@ -5,8 +5,7 @@ RUN apt-get update && \
     git clone https://github.com/naiba/nezha.git /opt/nezha && \
     cd /opt/nezha/cmd/agent && \
     export VERSION=$(git describe --tags) && \
-    sed -i "s/monitor.Version = version/monitor.Version = \"${VERSION}\"/g" /opt/nezha/cmd/agent/main.go && \
-    go build -a -trimpath -ldflags="-s -w" -o /opt/agent
+    go build -a -trimpath -ldflags="-s -w -X main.version=${VERSION}" -o /opt/agent
 
 
 FROM debian:stable-slim

@@ -7,7 +7,7 @@ RUN apt-get update && \
     export CODENAME=$(git rev-parse --short HEAD) && \
     export BUILDNAME=$(date '+%Y%m%d-%H%M%S') && \
     export VERSIONTAG=$(git describe --abbrev=0 --tags) && \
-    export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}" && \
+    export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v5.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v5.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v5.version=${VERSIONTAG}" && \
     CGO_ENABLED=0 go build -a -o /v2ray -trimpath -ldflags "$LDFLAGS" ./main && \
     wget -O /geosite.dat https://github.com/v2fly/domain-list-community/raw/release/dlc.dat && \
     wget -O /geoip.dat https://github.com/v2fly/geoip/raw/release/geoip.dat
