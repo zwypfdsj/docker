@@ -29,7 +29,7 @@ RUN tar -zxf musl-cross.tgz -C /opt && \
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-* && \
-    ./configure --prefix=$PREFIX --static --zlib-compat && \
+    CHOST="${HOST}" ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
