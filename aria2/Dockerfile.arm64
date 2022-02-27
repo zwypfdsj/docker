@@ -14,7 +14,7 @@ ENV STRIP="${HOST}-strip"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl ca-certificates build-essential binutils autoconf automake autopoint autotools-dev libtool pkg-config libcppunit-dev
+    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config
 
 RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
     curl -L "https://curl.se/ca/cacert.pem" -o /opt/cacert.pem && \
