@@ -18,43 +18,42 @@ RUN apt-get update && \
 RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
     curl -L "https://curl.se/ca/cacert.pem" -o /opt/cacert.pem && \
     curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.0.6.tar.gz" -o zlib-ng.tar.gz && \
-    curl -L "https://github.com/libexpat/libexpat/releases/download/R_2_4_6/expat-2.4.6.tar.gz" -o expat.tar.gz && \
-    curl -L "https://github.com/c-ares/c-ares/releases/download/cares-1_18_1/c-ares-1.18.1.tar.gz" -o c-ares.tar.gz && \
-    curl -L "https://www.openssl.org/source/openssl-3.0.1.tar.gz" -o openssl.tar.gz && \
-    curl -L "https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz" -o sqlite.tar.gz && \
-    curl -L "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz" -o libssh2.tar.gz
+    curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_4_6/expat-2.4.6.tar.gz" && \
+    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_18_1/c-ares-1.18.1.tar.gz" && \
+    curl -L -O "https://www.openssl.org/source/openssl-3.0.1.tar.gz" && \
+    curl -L -O "https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz" && \
+    curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz"
 
-RUN tar -zxf musl-cross.tgz -C musl-cross && \
-    mv musl-cross /opt/${HOST}-musl-cross && \
+RUN tar -zxf musl-cross.tgz -C /opt && \
     export PATH=$PATH:/opt/${HOST}-musl-cross/bin
 
-RUN tar -zxf zlib-ng.tar.gz -C zlib-ng && \
-    cd zlib-ng && \
+RUN tar -zxf zlib-ng.tar.gz && \
+    cd zlib-ng-* && \
     ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
-RUN tar -zxf expat.tar.gz -C expat && \
-    cd expat && \
+RUN tar -zxf expat-*.tar.gz && \
+    cd expat-* && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf c-ares.tar.gz -C c-ares && \
-    cd c-ares && \
+RUN tar -zxf c-ares-*.tar.gz && \
+    cd c-ares-* && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf openssl.tar.gz -C openssl && \
-    cd openssl && \
+RUN tar -zxf openssl-*.tar.gz && \
+    cd openssl-* && \
     ./Configure --cross-compile-prefix=${HOST}- --prefix=$PREFIX linux-aarch64 && \
     make && make install
 
-RUN tar -zxf sqlite.tar.gz -C sqlite && \
-    cd sqlite && \
+RUN tar -zxf sqlite-*.tar.gz && \
+    cd sqlite-* && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf libssh2.tar.gz -C libssh2 && \
-    cd libssh2 && \
+RUN tar -zxf libssh2-*.tar.gz && \
+    cd libssh2-* && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
