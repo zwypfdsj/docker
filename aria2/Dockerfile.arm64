@@ -24,7 +24,7 @@ RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
     curl -L "https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz" -o sqlite.tar.gz && \
     curl -L "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz" -o libssh2.tar.gz
 
-RUN tar -zxf musl-cross.tgz  && \
+RUN tar -zxf musl-cross.tgz -C musl-cross && \
     mv musl-cross /opt/${HOST}-musl-cross && \
     export PATH=$PATH:/opt/${HOST}-musl-cross/bin
 
