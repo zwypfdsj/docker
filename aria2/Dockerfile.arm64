@@ -44,7 +44,7 @@ RUN tar -zxf c-ares-*.tar.gz && \
 
 RUN tar -zxf openssl-*.tar.gz && \
     cd openssl-*/ && \
-    ./Configure --prefix=${PREFIX} linux-aarch64 && \
+    ./Configure --prefix=${PREFIX} linux-aarch64 -static && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \
