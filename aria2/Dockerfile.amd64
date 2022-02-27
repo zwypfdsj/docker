@@ -44,7 +44,7 @@ RUN tar -zxf c-ares-*.tar.gz && \
 
 RUN tar -zxf openssl-*.tar.gz && \
     cd openssl-*/ && \
-    ./Configure --cross-compile-prefix=${HOST}- --prefix=${PREFIX} linux-x86_64 && \
+    ./Configure --prefix=${PREFIX} linux-x86_64 && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \
