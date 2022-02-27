@@ -2,12 +2,12 @@ FROM ubuntu:latest
 
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX /opt/aria2
-ENV CC="$HOST-gcc"
-ENV CXX="$HOST-g++"
-ENV AR="$HOST-ar"
-ENV LD="$HOST-ld"
-ENV RANLIB="$HOST-ranlib"
-ENV STRIP="$HOST-strip"
+ENV CC="${HOST}-gcc"
+ENV CXX="${HOST}-g++"
+ENV AR="${HOST}-ar"
+ENV LD="${HOST}-ld"
+ENV RANLIB="${HOST}-ranlib"
+ENV STRIP="${HOST}-strip"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -37,7 +37,7 @@ RUN tar -zxf c-ares-1.18.1.tar.gz && \
 
 RUN tar -zxf openssl-3.0.1.tar.gz && \
     cd openssl-3.0.1 && \
-    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib STRIP=strip ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
+    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
     make && make install
 
 RUN tar -zxf sqlite-autoconf-3380000.tar.gz && \
@@ -72,8 +72,8 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-sqlite3 \
         --without-libxml2 \
         --with-libexpat \
-        --without-libgmp \
         --with-libz \
+        --without-libgmp \
         --with-libssh2 \
         --without-libgcrypt \
         --without-libnettle \
@@ -83,4 +83,4 @@ RUN git clone https://github.com/aria2/aria2.git && \
         LDFLAGS="-L$PREFIX/lib" \
         PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" && \
     make && \
-    $HOST-strip src/aria2c.exe
+    strip src/aria2c.exe
