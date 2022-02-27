@@ -2,6 +2,7 @@ FROM ubuntu:latest
 
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX /opt/aria2
+ENV PATH $PATH:/opt/${HOST}-cross/bin
 ENV PKG_CONFIG_PATH $PREFIX/lib/pkgconfig/
 ENV LD_LIBRARY_PATH $PREFIX/lib/
 ENV CC="${HOST}-gcc"
@@ -24,36 +25,35 @@ RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
     curl -L -O "https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz" && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz"
 
-RUN tar -zxf musl-cross.tgz -C /opt && \
-    export PATH=$PATH:/opt/${HOST}-cross/bin
+RUN tar -zxf musl-cross.tgz -C /opt
 
 RUN tar -zxf zlib-ng.tar.gz && \
-    cd zlib-ng-* && \
+    cd zlib-ng-*/ && \
     ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
-    cd expat-* && \
+    cd expat-*/ && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf c-ares-*.tar.gz && \
-    cd c-ares-* && \
+    cd c-ares-*/ && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf openssl-*.tar.gz && \
-    cd openssl-* && \
+    cd openssl-*/ && \
     ./Configure --cross-compile-prefix=${HOST}- --prefix=$PREFIX mingw64 && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \
-    cd sqlite-* && \
+    cd sqlite-*/ && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf libssh2-*.tar.gz && \
-    cd libssh2-* && \
+    cd libssh2-*/ && \
     ./configure --prefix=$PREFIX --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
