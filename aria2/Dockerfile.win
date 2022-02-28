@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 ENV HOST x86_64-w64-mingw32
-ENV PREFIX /opt/aria2
+ENV PREFIX="/opt/aria2"
 ENV PATH="${PATH}:/opt/${HOST}-cross/bin"
 ENV PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig"
 ENV LD_LIBRARY_PATH="${PREFIX}/lib"
@@ -10,7 +10,6 @@ ENV CXX="${HOST}-g++"
 ENV AR="${HOST}-ar"
 ENV LD="${HOST}-ld"
 ENV RANLIB="${HOST}-ranlib"
-ENV STRIP="${HOST}-strip"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -70,11 +69,11 @@ RUN git clone https://github.com/aria2/aria2.git && \
     ./configure \
         --host=${HOST} \
         --prefix=${PREFIX} \
-        --without-gnutls \
         --without-libgmp \
         --without-libxml2 \
         --without-libgcrypt \
         --without-libnettle \
+        --without-gnutls \
         --with-openssl \
         --with-libz \
         --with-libexpat \
@@ -83,4 +82,4 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-ca-bundle='/opt/cacert.pem' \
         ARIA2_STATIC=yes && \
     make && \
-    strip src/aria2c.exe
+    ${HOST}-strip src/aria2c.exe
