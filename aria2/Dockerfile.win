@@ -1,10 +1,11 @@
 FROM ubuntu:latest
 
+ENV HOSTNAME aria2
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX="/opt/aria2"
 ENV PATH="${PATH}:/opt/${HOST}-cross/bin"
-ENV PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
-ENV LD_LIBRARY_PATH="${PREFIX}/lib:${PREFIX}/lib64"
+ENV PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig"
+ENV LD_LIBRARY_PATH="${PREFIX}/lib"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -23,7 +24,7 @@ RUN tar -zxf musl-cross.tgz -C /opt
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-*/ && \
-    CHOST="${HOST}" ./configure --prefix=${PREFIX} --static --zlib-compat && \
+    ./configure --prefix=${PREFIX} --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \

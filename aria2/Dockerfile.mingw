@@ -1,5 +1,6 @@
 FROM gcc:latest
 
+ENV HOSTNAME aria2
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX="/opt/aria2"
 ENV DEBIAN_FRONTEND=noninteractive
