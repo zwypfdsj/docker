@@ -6,6 +6,10 @@ ENV PREFIX="/opt/aria2"
 ENV PATH="${PATH}:/opt/${HOST}-cross/bin"
 ENV PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig"
 ENV LD_LIBRARY_PATH="${PREFIX}/lib"
+ENV CC="${HOST}-gcc"
+ENV CXX="${HOST}-g++"
+ENV AR="${HOST}-ar"
+ENV RANLIB="${HOST}-ranlib"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -24,7 +28,7 @@ RUN tar -zxf musl-cross.tgz -C /opt
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-*/ && \
-    CHOST="${HOST}" ./configure --prefix=${PREFIX} --static --zlib-compat && \
+    ./configure --prefix=${PREFIX} --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \

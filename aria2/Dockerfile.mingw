@@ -3,6 +3,10 @@ FROM gcc:latest
 ENV HOSTNAME aria2
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX="/opt/aria2"
+ENV CC="${HOST}-gcc"
+ENV CXX="${HOST}-g++"
+ENV AR="${HOST}-ar"
+ENV RANLIB="${HOST}-ranlib"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -17,7 +21,7 @@ RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
 
 RUN tar -zxf zlib-*.tar.gz && \
     cd zlib-*/ && \
-    CC=${HOST}-gcc AR=${HOST}-ar RANLIB=${HOST}-ranlib ./configure --prefix=$PREFIX --static && \
+    ./configure --prefix=$PREFIX --static && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
@@ -32,7 +36,7 @@ RUN tar -zxf c-ares*.tar.gz && \
 
 RUN tar -zxf openssl-*.tar.gz && \
     cd openssl-*/ && \
-    ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
+    CC=gcc CXX=g++ AR=ar RANLIB=ranlib ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \
