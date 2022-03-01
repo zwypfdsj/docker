@@ -2,11 +2,6 @@ FROM gcc:latest
 
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX="/opt/aria2"
-ENV CC="${HOST}-gcc"
-ENV CXX="${HOST}-g++"
-ENV AR="${HOST}-ar"
-ENV LD="${HOST}-ld"
-ENV RANLIB="${HOST}-ranlib"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -19,33 +14,33 @@ RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz && \
     curl -L -O https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz
 
-RUN tar -zxf zlib-1.2.11.tar.gz && \
-    cd zlib-1.2.11 && \
-    ./configure --prefix=$PREFIX --static && \
+RUN tar -zxf zlib-*.tar.gz && \
+    cd zlib-*/ && \
+    CC=${HOST}-gcc AR=${HOST}-ar RANLIB=${HOST}-ranlib ./configure --prefix=$PREFIX --static && \
     make && make install
 
-RUN tar -zxf expat-2.4.6.tar.gz && \
-    cd expat-2.4.6 && \
+RUN tar -zxf expat-*.tar.gz && \
+    cd expat-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf c-ares-1.18.1.tar.gz && \
-    cd c-ares-1.18.1 && \
+RUN tar -zxf c-ares*.tar.gz && \
+    cd c-ares-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf openssl-3.0.1.tar.gz && \
-    cd openssl-3.0.1 && \
-    CC=gcc CXX=g++ AR=ar LD=ld RANLIB=ranlib ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
+RUN tar -zxf openssl-*.tar.gz && \
+    cd openssl-*/ && \
+    ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
     make && make install
 
-RUN tar -zxf sqlite-autoconf-3380000.tar.gz && \
-    cd sqlite-autoconf-3380000 && \
+RUN tar -zxf sqlite-*.tar.gz && \
+    cd sqlite-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf libssh2-1.10.0.tar.gz && \
-    cd libssh2-1.10.0 && \
+RUN tar -zxf libssh2-*.tar.gz && \
+    cd libssh2-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
@@ -79,6 +74,7 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-cppunit-prefix=$PREFIX \
         --enable-shared=no \
         ARIA2_STATIC=yes \
+        --enable-shared=no \
         CPPFLAGS="-I$PREFIX/include" \
         LDFLAGS="-L$PREFIX/lib" \
         PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" && \
