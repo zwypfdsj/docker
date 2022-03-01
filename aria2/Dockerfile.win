@@ -80,6 +80,7 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-libssh2 \
         --with-sqlite3 \
         --with-ca-bundle='/opt/cacert.pem' \
-        ARIA2_STATIC=yes && \
+        ARIA2_STATIC=yes \
+        --enable-shared=no && \
     make && \
     ${HOST}-strip src/aria2c.exe
