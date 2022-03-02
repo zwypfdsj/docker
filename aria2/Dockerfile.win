@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM gcc:latest
 
 ENV HOSTNAME aria2
 ENV HOST x86_64-w64-mingw32
@@ -8,20 +8,17 @@ ENV PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig"
 ENV LD_LIBRARY_PATH="${PREFIX}/lib"
 ENV CC="${HOST}-gcc"
 ENV CXX="${HOST}-g++"
-ENV AR="${HOST}-ar"
-ENV RANLIB="${HOST}-ranlib"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config
 
 RUN curl -L "https://musl.cc/${HOST}-cross.tgz" -o musl-cross.tgz && \
-    curl -L "https://curl.se/ca/cacert.pem" -o /opt/cacert.pem && \
     curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.0.6.tar.gz" -o zlib-ng.tar.gz && \
     curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_4_6/expat-2.4.6.tar.gz" && \
     curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_18_1/c-ares-1.18.1.tar.gz" && \
-    curl -L -O "https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.2.tar.gz" && \
     curl -L -O "https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz" && \
+    curl -L -O "https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.4.2.tar.gz" && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz"
 
 RUN tar -zxf musl-cross.tgz -C /opt
@@ -41,13 +38,13 @@ RUN tar -zxf c-ares-*.tar.gz && \
     ./configure --prefix=${PREFIX} --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf libressl-*.tar.gz && \
-    cd libressl-*/ && \
+RUN tar -zxf sqlite-*.tar.gz && \
+    cd sqlite-*/ && \
     ./configure --prefix=${PREFIX} --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf sqlite-*.tar.gz && \
-    cd sqlite-*/ && \
+RUN tar -zxf libressl-*.tar.gz && \
+    cd libressl-*/ && \
     ./configure --prefix=${PREFIX} --host=${HOST} --disable-shared --enable-static && \
     make && make install
 
@@ -74,12 +71,13 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --without-libgcrypt \
         --without-libnettle \
         --without-gnutls \
+        --without-wintls \
         --with-openssl \
         --with-libz \
+        --with-libcares \
         --with-libexpat \
         --with-libssh2 \
         --with-sqlite3 \
-        --with-ca-bundle='/opt/cacert.pem' \
         ARIA2_STATIC=yes \
         --enable-shared=no && \
     make && \

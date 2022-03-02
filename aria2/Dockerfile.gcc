@@ -12,37 +12,37 @@ RUN apt-get update && \
 RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_4_6/expat-2.4.6.tar.gz && \
     curl -L -O https://github.com/c-ares/c-ares/releases/download/cares-1_18_1/c-ares-1.18.1.tar.gz && \
-    curl -L -O https://www.openssl.org/source/openssl-3.0.1.tar.gz && \
     curl -L -O https://www.sqlite.org/2022/sqlite-autoconf-3380000.tar.gz && \
+    curl -L -O https://www.openssl.org/source/openssl-3.0.1.tar.gz && \
     curl -L -O https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz
 
-RUN tar -zxf zlib-1.2.11.tar.gz && \
-    cd zlib-1.2.11 && \
+RUN tar -zxf zlib-*.tar.gz && \
+    cd zlib-*/ && \
     ./configure --prefix=$PREFIX --static && \
     make && make install
 
-RUN tar -zxf expat-2.4.6.tar.gz && \
-    cd expat-2.4.6 && \
+RUN tar -zxf expat-*.tar.gz && \
+    cd expat-*/ && \
     ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf c-ares-1.18.1.tar.gz && \
-    cd c-ares-1.18.1 && \
+RUN tar -zxf c-ares-*.tar.gz && \
+    cd c-ares-*/ && \
     ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf openssl-3.0.1.tar.gz && \
-    cd openssl-3.0.1 && \
+RUN tar -zxf sqlite-*.tar.gz && \
+    cd sqlite-*/ && \
+    ./configure --prefix=$PREFIX --disable-shared --enable-static && \
+    make && make install
+
+RUN tar -zxf openssl-*.tar.gz && \
+    cd openssl-*/ && \
     ./Configure --prefix=$PREFIX linux-x86_64 shared && \
     make && make install
 
-RUN tar -zxf sqlite-autoconf-3380000.tar.gz && \
-    cd sqlite-autoconf-3380000 && \
-    ./configure --prefix=$PREFIX --disable-shared --enable-static && \
-    make && make install
-
-RUN tar -zxf libssh2-1.10.0.tar.gz && \
-    cd libssh2-1.10.0 && \
+RUN tar -zxf libssh2-*.tar.gz && \
+    cd libssh2-*/ && \
     ./configure --prefix=$PREFIX --disable-shared --enable-static && \
     make && make install
 
@@ -65,6 +65,7 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --without-gnutls \
         --with-openssl \
         --with-libz \
+        --with-libcares \
         --with-libexpat \
         --with-libssh2 \
         --with-sqlite3 \

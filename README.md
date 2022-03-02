@@ -3,6 +3,7 @@
 ## aria2
  - refer to [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf)
  - refer to [q3aql/aria2-static-builds](https://github.com/q3aql/aria2-static-builds)
+ - refer to [abcfy2/aria2-static-build](https://github.com/abcfy2/aria2-static-build)
 
 ## caddy
  - refer to [caddyserver/caddy](https://github.com/caddyserver/caddy)
