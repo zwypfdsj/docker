@@ -3,8 +3,6 @@ FROM gcc:latest
 ENV HOSTNAME aria2
 ENV HOST x86_64-w64-mingw32
 ENV PREFIX="/opt/aria2"
-ENV CC="$HOST-gcc"
-ENV CXX="$HOST-g++"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -19,32 +17,32 @@ RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
 
 RUN tar -zxf zlib-*.tar.gz && \
     cd zlib-*/ && \
-    ./configure --prefix=$PREFIX --static && \
+    CHOST=$HOST ./configure --prefix=$PREFIX --static && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
     cd expat-*/ && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    CC=$HOST-gcc CXX=$HOST-g++ ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf c-ares-*.tar.gz && \
     cd c-ares-*/ && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    CC=$HOST-gcc CXX=$HOST-g++ ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf sqlite-*.tar.gz && \
     cd sqlite-*/ && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    CC=$HOST-gcc CXX=$HOST-g++ ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
 RUN tar -zxf openssl-*.tar.gz && \
     cd openssl-*/ && \
-    CC=gcc CXX=g++ ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 shared && \
+    CC=gcc CXX=g++ ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX mingw64 && \
     make && make install
 
 RUN tar -zxf libssh2-*.tar.gz && \
     cd libssh2-*/ && \
-    ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
+    CC=$HOST-gcc CXX=$HOST-g++ ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
 RUN git clone https://github.com/aria2/aria2.git && \
