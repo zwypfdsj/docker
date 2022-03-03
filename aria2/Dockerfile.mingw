@@ -17,7 +17,7 @@ RUN curl -L -O https://zlib.net/zlib-1.2.11.tar.gz && \
 
 RUN tar -zxf zlib-*.tar.gz && \
     cd zlib-*/ && \
-    CHOST=$HOST ./configure --prefix=$PREFIX --static && \
+    CC=$HOST-gcc CXX=$HOST-g++ ./configure --prefix=$PREFIX --static && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
