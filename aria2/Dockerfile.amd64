@@ -76,7 +76,7 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
         --enable-shared=no \
         ARIA2_STATIC=yes \
-        PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" \
-        LD_LIBRARY_PATH="$PREFIX/lib" && \
+        LDFLAGS="-L$PREFIX/lib" \
+        PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" && \
     make && \
     $HOST-strip src/aria2c
