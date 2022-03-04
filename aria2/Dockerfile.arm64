@@ -4,10 +4,6 @@ ENV HOSTNAME aria2
 ENV HOST aarch64-linux-musl
 ENV PREFIX="/opt/aria2"
 ENV PATH="$PATH:/opt/$HOST-cross/bin"
-ENV PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
-ENV LD_LIBRARY_PATH="$PREFIX/lib"
-ENV CC="$HOST-gcc"
-ENV CXX="$HOST-g++"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -25,7 +21,7 @@ RUN tar -zxf musl-cross.tgz -C /opt
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-*/ && \
-    ./configure --prefix=$PREFIX --static --zlib-compat && \
+    CC=$HOST-gcc ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
@@ -78,7 +74,9 @@ RUN git clone https://github.com/aria2/aria2.git && \
         --with-libssh2 \
         --with-sqlite3 \
         --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
+        --enable-shared=no \
         ARIA2_STATIC=yes \
-        --enable-shared=no && \
+        PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig" \
+        LD_LIBRARY_PATH="$PREFIX/lib" && \
     make && \
     $HOST-strip src/aria2c
