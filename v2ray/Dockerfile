@@ -28,5 +28,4 @@ COPY --from=builder /geosite.dat /usr/bin/
 WORKDIR /v2ray
 VOLUME /v2ray
 
-ENTRYPOINT ["v2ray", "-config"]
-CMD ["/v2ray/config.json"]
+CMD [ "v2ray", "run", "-config", "/v2ray/config.json" ]
