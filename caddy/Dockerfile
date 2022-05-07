@@ -1,7 +1,7 @@
 FROM golang:latest AS builder
 
 RUN go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
-    xcaddy build --with github.com/caddy-dns/cloudflare --output /opt/caddy
+    xcaddy build --output /opt/caddy
 
 
 FROM debian:stable-slim
