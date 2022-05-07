@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-RUN go get -u github.com/caddyserver/xcaddy/cmd/xcaddy && \
+RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest && \
     xcaddy build --output /opt/caddy
 
 
