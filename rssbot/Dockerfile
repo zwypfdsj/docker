@@ -7,7 +7,7 @@ RUN apt-get update && \
     export VERSION=$(git describe --tags) && \
     export DATE=$(date '+%Y%m%d-%H%M%S') && \
     export COMMIT=$(git rev-parse --short HEAD) && \
-    export LDFLAGS="-s -w -X github.com/indes/flowerss-bot/config.version=${VERSION} -X github.com/indes/flowerss-bot/config.date=${DATE} -X github.com/indes/flowerss-bot/config.commit=${COMMIT}" && \
+    export LDFLAGS="-s -w -X github.com/indes/flowerss-bot/internal/config.version==${VERSION} -X github.com/indes/flowerss-bot/internal/config.date=${DATE} -X github.com/indes/flowerss-bot/internal/config.commit=${COMMIT}" && \
     go build -a -trimpath -ldflags "$LDFLAGS" -o /rssbot
 
 
