@@ -17,10 +17,6 @@ RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /C
     yarn run build
 
 RUN cd /Cloudreve && \
-    go get github.com/rakyll/statik && \
-    statik -src=assets/build/  -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f
-
-RUN cd /Cloudreve && \
     export PATH=$PATH:/opt/x86_64-linux-musl-native/bin && \
     export PATH=$PATH:/opt/aarch64-linux-musl-cross/bin && \
     export COMMIT_SHA=$(git rev-parse --short HEAD) && \

@@ -3,7 +3,7 @@ FROM node:lts AS fe-builder
 RUN apt-get update && apt-get install -y git && \
     git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /Cloudreve && \
     cd /Cloudreve/assets && \
-    yarn install --network-timeout 1000000 && \
+    yarn install && \
     yarn run build
 
 
@@ -14,8 +14,6 @@ COPY --from=fe-builder /Cloudreve /Cloudreve
 RUN apt-get update && \
     apt-get install -y build-essential git && \
     cd /Cloudreve && \
-    go get github.com/rakyll/statik && \
-    statik -src=assets/build/ -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f && \
     export COMMIT_SHA=$(git rev-parse --short HEAD)  && \
     export VERSION=$(git describe --tags) && \
     go build -a -trimpath -ldflags "-s -w -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.BackendVersion=${VERSION}' -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.LastCommit=${COMMIT_SHA}'" -o cloudreve

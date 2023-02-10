@@ -11,10 +11,10 @@ RUN apt-get update && \
 
 RUN curl -L "https://musl.cc/$HOST-cross.tgz" -o musl-cross.tgz && \
     curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.0.6.tar.gz" -o zlib-ng.tar.gz && \
-    curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_4_8/expat-2.4.8.tar.gz" && \
-    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_18_1/c-ares-1.18.1.tar.gz" && \
-    curl -L -O "https://www.sqlite.org/2022/sqlite-autoconf-3390100.tar.gz" && \
-    curl -L -O "https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.3.tar.gz" && \
+    curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.gz" && \
+    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_19_0/c-ares-1.19.0.tar.gz" && \
+    curl -L -O "https://www.sqlite.org/2022/sqlite-autoconf-3400100.tar.gz" && \
+    curl -L -O "https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.6.2.tar.gz" && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz"
 
 RUN tar -zxf musl-cross.tgz -C /opt
