@@ -7,12 +7,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y git curl ca-certificates make autoconf automake autopoint autotools-dev libtool pkg-config
 
-RUN curl -L -O https://zlib.net/zlib-1.2.13.tar.gz && \
+RUN curl -L -O https://github.com/madler/zlib/releases/download/v1.2.13/zlib-1.2.13.tar.gz && \
     curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.gz && \
-    curl -L -O https://github.com/c-ares/c-ares/releases/download/cares-1_19_0/c-ares-1.19.0.tar.gz && \
-    curl -L -O https://www.sqlite.org/2022/sqlite-autoconf-3400100.tar.gz && \
-    curl -L -O https://www.openssl.org/source/openssl-1.1.1t.tar.gz && \
-    curl -L -O https://github.com/libssh2/libssh2/releases/download/libssh2-1.10.0/libssh2-1.10.0.tar.gz
+    curl -L -O https://github.com/c-ares/c-ares/releases/download/cares-1_19_1/c-ares-1.19.1.tar.gz && \
+    curl -L -O https://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz && \
+    curl -L -O https://www.openssl.org/source/openssl-1.1.1u.tar.gz && \
+    curl -L -O https://github.com/libssh2/libssh2/releases/download/libssh2-1.11.0/libssh2-1.11.0.tar.gz
 
 RUN tar -zxf zlib-*.tar.gz && \
     cd zlib-*/ && \
