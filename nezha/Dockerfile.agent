@@ -2,8 +2,8 @@ FROM golang:latest AS builder
 
 RUN apt-get update && \
     apt-get install -y build-essential git && \
-    git clone https://github.com/naiba/nezha.git /opt/nezha && \
-    cd /opt/nezha/cmd/agent && \
+    git clone https://github.com/nezhahq/agent.git /opt/nezha && \
+    cd /opt/nezha && \
     export VERSION=$(git describe --tags) && \
     go build -a -trimpath -ldflags="-s -w -X main.version=${VERSION}" -o /opt/agent
 
