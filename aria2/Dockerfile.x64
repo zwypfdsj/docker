@@ -1,11 +1,11 @@
 FROM gcc:latest
 
-ENV HOSTNAME aria2
+ENV HOSTNAME=aria2
 ENV PREFIX="/opt/aria2"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl cmake make autoconf automake autopoint autotools-dev libtool pkg-config
+    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config
 
 RUN curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.1.3.tar.gz" -o zlib-ng.tar.gz && \
     curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.gz" && \
@@ -41,8 +41,8 @@ RUN tar -zxf libressl-*.tar.gz && \
 
 RUN tar -zxf libssh2-*.tar.gz && \
     cd libssh2-*/ && \
-    cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_STATIC_LIBS=On -DBUILD_SHARED_LIBS=OFF -DENABLE_ZLIB_COMPRESSION=ON && \
-    cmake --build . && cmake --install .
+    ./configure --prefix=$PREFIX --with-libssl-prefix=$PREFIX --disable-shared --enable-static && \
+    make && make install
 
 RUN git clone https://github.com/aria2/aria2.git && \
     cd aria2 && \
