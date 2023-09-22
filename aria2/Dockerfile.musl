@@ -2,7 +2,7 @@ FROM gcc:latest
 
 ENV HOSTNAME=aria2
 ENV HOST aarch64-linux-musl
-ENV PREFIX="/opt/aria2"
+ENV PREFIX=/opt/aria2
 ENV PATH="$PATH:/opt/$HOST-cross/bin"
 ENV DEBIAN_FRONTEND=noninteractive
 
