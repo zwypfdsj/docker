@@ -28,4 +28,4 @@ COPY --from=builder /geosite.dat /usr/bin/
 WORKDIR /xray
 VOLUME /xray
 
-CMD [ "xray", "-config" "/xray/config.json" ]
+CMD [ "xray", "run", "-c" "/xray/config.json" ]
