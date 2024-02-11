@@ -8,12 +8,12 @@
 
 ## caddy
  - refer to [caddyserver/caddy](https://github.com/caddyserver/caddy)
- - refer to [Documentation](https://caddyserver.com/docs/)
 
 
 ## nezha
 
  - refer to [naiba/nezha](https://github.com/naiba/nezha)
+ - refer to [nezhahq/agent](https://github.com/nezhahq/agent)
 
 
 ## rssbot
@@ -21,15 +21,9 @@
  - refer to [indes/flowerss-bot](https://github.com/indes/flowerss-bot)
 
 
-## speedtest
-
- - refer to [librespeed/speedtest-go](https://github.com/librespeed/speedtest-go)
-
-
 ## v2ray
 
  - refer to [v2fly/v2ray-core](https://github.com/v2fly/v2ray-core)
- - refer to [Documentation](https://www.v2fly.org/config/overview.html)
 
 
 ## xray

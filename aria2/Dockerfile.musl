@@ -10,10 +10,10 @@ RUN apt-get update && \
     apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config
 
 RUN curl -L "https://musl.cc/$HOST-cross.tgz" -o musl-cross.tgz && \
-    curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.1.4.tar.gz" -o zlib-ng.tar.gz && \
-    curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.gz" && \
-    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_22_0/c-ares-1.22.0.tar.gz" && \
-    curl -L -O "https://www.sqlite.org/2023/sqlite-autoconf-3440000.tar.gz" && \
+    curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.1.6.tar.gz" -o zlib-ng.tar.gz && \
+    curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_6_0/expat-2.6.0.tar.gz" && \
+    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_26_0/c-ares-1.26.0.tar.gz" && \
+    curl -L -O "https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz" && \
     curl -L -O "https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.8.2.tar.gz" && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.11.0/libssh2-1.11.0.tar.gz"
 
