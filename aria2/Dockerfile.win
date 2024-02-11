@@ -6,7 +6,7 @@ ENV PREFIX=/opt/aria2
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config mingw-w64
+    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config mingw-w64 libcppunit-dev
 
 RUN curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.1.6.tar.gz" -o zlib-ng.tar.gz && \
     curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_6_0/expat-2.6.0.tar.gz" && \
