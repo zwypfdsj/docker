@@ -35,11 +35,6 @@ RUN tar -zxf sqlite-*.tar.gz && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
     make && make install
 
-RUN tar -zxf openssl-*.tar.gz && \
-    cd openssl-*/ && \
-    ./Configure --cross-compile-prefix=$HOST- --prefix=$PREFIX shared mingw64 && \
-    make && make install_sw
-
 RUN tar -zxf libssh2-*.tar.gz && \
     cd libssh2-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \

@@ -42,7 +42,7 @@ RUN tar -zxf sqlite-*.tar.gz && \
 RUN tar -zxf libressl-*.tar.gz && \
     cd libressl-*/ && \
     ./configure --prefix=$PREFIX --host=$HOST --disable-shared --enable-static && \
-    make && make install
+    make && make install_sw
 
 RUN tar -zxf libssh2-*.tar.gz && \
     cd libssh2-*/ && \
