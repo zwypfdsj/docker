@@ -6,17 +6,17 @@ ENV PREFIX=/opt/aria2
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config mingw-w64 libcppunit-dev
+    apt-get install -y git curl make autoconf automake autopoint autotools-dev libtool pkg-config mingw-w64 libcppunit-dev python3-docutils
 
 RUN curl -L "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.1.6.tar.gz" -o zlib-ng.tar.gz && \
     curl -L -O "https://github.com/libexpat/libexpat/releases/download/R_2_6_0/expat-2.6.0.tar.gz" && \
-    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_26_0/c-ares-1.26.0.tar.gz" && \
+    curl -L -O "https://github.com/c-ares/c-ares/releases/download/cares-1_27_0/c-ares-1.27.0.tar.gz" && \
     curl -L -O "https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz" && \
     curl -L -O "https://github.com/libssh2/libssh2/releases/download/libssh2-1.11.0/libssh2-1.11.0.tar.gz"
 
 RUN tar -zxf zlib-ng.tar.gz && \
     cd zlib-ng-*/ && \
-    CC=$HOST-gcc ./configure --prefix=$PREFIX --static --zlib-compat && \
+    CC=$HOST-gcc CXX=$HOST-g++ AR=$HOST-ar RANLIB=$HOST-ranlib ./configure --prefix=$PREFIX --static --zlib-compat && \
     make && make install
 
 RUN tar -zxf expat-*.tar.gz && \
