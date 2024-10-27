@@ -7,7 +7,7 @@ RUN apt-get update && \
     wget -qO /opt/nezha/pkg/geoip/geoip.db https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-Country.mmdb && \
     cd /opt/nezha && \
     export VERSION=$(git describe --tags) && \
-    CGO_ENABLED=0 go build -a -o /opt/dashboard -trimpath -ldflags="-s -w -X github.com/naiba/nezha/service/singleton.Version=${VERSION} -extldflags "-static -fpic"" ./cmd/dashboard
+    CGO_ENABLED=1 go build -a -o /opt/dashboard -trimpath -ldflags="-s -w -X github.com/naiba/nezha/service/singleton.Version=${VERSION} -extldflags "-static -fpic"" ./cmd/dashboard
 
 
 FROM debian:stable-slim
