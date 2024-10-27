@@ -3,8 +3,11 @@ FROM golang:latest AS builder
 RUN apt-get update && \
     apt-get install -y build-essential git && \
     git clone https://github.com/naiba/nezha.git /opt/nezha && \
-    cd /opt/nezha/cmd/dashboard && \
-    go build -a -trimpath -ldflags="-s -w" -o /opt/dashboard
+    rm /opt/nezha/pkg/geoip/geoip.db && \
+    wget -qO /opt/nezha/pkg/geoip/geoip.db https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-Country.mmdb && \
+    cd /opt/nezha && \
+    export VERSION=$(git describe --tags) && \
+    CGO_ENABLED=0 go build -a -o /opt/dashboard -trimpath -ldflags="-s -w -X github.com/naiba/nezha/service/singleton.Version=${VERSION} -extldflags "-static -fpic"" ./cmd/dashboard
 
 
 FROM debian:stable-slim

@@ -5,7 +5,7 @@ RUN apt-get update && \
     git clone https://github.com/nezhahq/agent.git /opt/nezha && \
     cd /opt/nezha && \
     export VERSION=$(git describe --tags) && \
-    go build -a -trimpath -ldflags="-s -w -X main.version=${VERSION}" -o /opt/agent
+    CGO_ENABLED=0 go build -a -o /opt/agent -trimpath -ldflags="-s -w -X main.version=${VERSION} -X main.arch=${GOARCH}" ./cmd/agent
 
 
 FROM debian:stable-slim
